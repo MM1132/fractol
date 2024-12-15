@@ -15,7 +15,13 @@ CFLAGS := -Wall -Wextra -Werror -Wunreachable-code -Ofast
 INCLUDES := -Iinclude -I$(MLX42_DIR)/include/MLX42 -I$(LIBFT_DIR)/include
 LIBS := $(MLX42_DEPENDENCY) $(LIBFT_DEPENDENCY) -ldl -lglfw -pthread -lm
 
-SRC_FILES := $(SRC_DIR)/main.c
+SRC_FILES := \
+	$(SRC_DIR)/main.c \
+	$(SRC_DIR)/utils.c \
+	$(SRC_DIR)/fractol_data/fractol_type.c \
+	$(SRC_DIR)/hooks/key_hook.c \
+	$(SRC_DIR)/hooks/resize_hook.c \
+	$(SRC_DIR)/utils/complex.c
 OBJ_FILES := $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
