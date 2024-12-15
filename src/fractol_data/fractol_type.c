@@ -6,13 +6,13 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:42:45 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/15 21:38:44 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/15 22:33:23 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static t_complex	*init_complex()
+t_complex	*init_complex()
 {
 	t_complex	*complex;
 

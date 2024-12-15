@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:44:49 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/15 22:14:00 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/15 22:33:21 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ t_complex		*window_to_complex(t_fractol_data *fd, uint32_t x, uint32_t y);
 uint32_t		get_mandlebrot_color(t_complex *start, uint32_t precision);
 void			put_mandelbrot_row(t_fractol_data *fd);
 void			put_mandelbrot(t_fractol_data *fd);
+t_complex		*init_complex();
 
 #endif

@@ -11,7 +11,8 @@ NAME := fractol
 SRC_DIR := src
 OBJ_DIR := obj
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -Wunreachable-code -Ofast
+EXTRA_FLAGS := -flto -fomit-frame-pointer -fvisibility=hidden -march=native
+CFLAGS := -Wall -Wextra -Werror -Wunreachable-code -Ofast $(EXTRA_FLAGS)
 INCLUDES := -Iinclude -I$(MLX42_DIR)/include/MLX42 -I$(LIBFT_DIR)/include
 LIBS := $(MLX42_DEPENDENCY) $(LIBFT_DEPENDENCY) -ldl -lglfw -pthread -lm
 

@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:08:08 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/15 22:09:33 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/15 22:45:11 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,9 @@ uint32_t	keep_squaring(t_complex *start, uint32_t limit)
 	t_complex	*new_complex;
 	t_complex	*tmp;
 
-	new_complex = malloc(sizeof(t_complex));
+	new_complex = init_complex();
 	if (new_complex == NULL)
 		return (0);
-	new_complex->im = start->im;
-	new_complex->re = start->re;
 	counter = 0;
 	while (counter < limit && complex_in_bounds(new_complex))
 	{
