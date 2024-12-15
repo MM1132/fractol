@@ -21,7 +21,9 @@ SRC_FILES := \
 	$(SRC_DIR)/fractol_data/fractol_type.c \
 	$(SRC_DIR)/hooks/key_hook.c \
 	$(SRC_DIR)/hooks/resize_hook.c \
-	$(SRC_DIR)/utils/complex.c
+	$(SRC_DIR)/hooks/scroll_hook.c \
+	$(SRC_DIR)/utils/complex.c \
+	$(SRC_DIR)/mandelbrot.c
 OBJ_FILES := $(SRC_FILES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)

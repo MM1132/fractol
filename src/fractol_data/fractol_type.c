@@ -6,22 +6,22 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:42:45 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/14 19:59:24 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/15 21:38:44 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static t_pos	*init_pos()
+static t_complex	*init_complex()
 {
-	t_pos	*pos;
+	t_complex	*complex;
 
-	pos = malloc(sizeof(t_pos));
-	if (pos == NULL)
+	complex = malloc(sizeof(t_complex));
+	if (complex == NULL)
 		return (NULL);
-	pos->x = 0;
-	pos->y = 0;
-	return (pos);
+	complex->re = 0;
+	complex->im = 0;
+	return (complex);
 }
 
 static void	free_camera(t_camera *camera)
@@ -43,13 +43,13 @@ static t_camera	*init_camera()
 	camera = malloc(sizeof(t_camera));
 	if (camera == NULL)
 		return (NULL);
-	camera->pos = init_pos();
+	camera->pos = init_complex();
 	if (camera->pos == NULL)
 	{
 		free_camera(camera);
 		return (NULL);
 	}
-	camera->zoom = 0;
+	camera->zoom = 10;
 	return (camera);
 }
 
@@ -60,9 +60,11 @@ t_fractol_data	*init_fractol_data()
 	fd = malloc(sizeof(t_fractol_data));
 	if (!fd)
 		return (NULL);
+	fd->current_row = 0;
 	fd->img = NULL;
 	fd->mlx = NULL;
 	fd->camera = NULL;
+	fd->precision = 10;
 	fd->camera = init_camera();
 	if (fd->camera == NULL)
 		return (free_fractol_data(fd), NULL);
