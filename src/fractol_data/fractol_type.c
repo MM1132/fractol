@@ -6,13 +6,13 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:42:45 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/15 22:33:23 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/15 23:41:14 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-t_complex	*init_complex()
+t_complex	*init_complex(void)
 {
 	t_complex	*complex;
 
@@ -30,13 +30,14 @@ static void	free_camera(t_camera *camera)
 	free(camera);
 }
 
-void	free_fractol_data(t_fractol_data	*fd)
+void	free_fractol_data(t_fractol_data *fd)
 {
 	free_camera(fd->camera);
+	free(fd->constant);
 	free(fd);
 }
 
-static t_camera	*init_camera()
+static t_camera	*init_camera(void)
 {
 	t_camera	*camera;
 
@@ -53,7 +54,7 @@ static t_camera	*init_camera()
 	return (camera);
 }
 
-t_fractol_data	*init_fractol_data()
+t_fractol_data	*init_fractol_data(int argc, char **argv)
 {
 	t_fractol_data	*fd;
 
@@ -68,5 +69,10 @@ t_fractol_data	*init_fractol_data()
 	fd->camera = init_camera();
 	if (fd->camera == NULL)
 		return (free_fractol_data(fd), NULL);
+	fd->constant = init_complex();
+	if (fd->constant == NULL)
+		return (free_fractol_data(fd), NULL);
+	if (set_fractol_type(argc, argv, fd) < 0)
+		return (free_fractol_data(fd), print_instrcutions(), NULL);
 	return (fd);
 }

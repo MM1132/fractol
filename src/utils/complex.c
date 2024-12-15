@@ -6,38 +6,32 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:08:08 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/15 22:45:11 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/15 23:55:35 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-t_complex	*square_complex(t_complex *c)
+int	complex_in_bounds(t_complex *complex, t_fractol_data *fd)
 {
-	t_complex	*squared_complex;
-
-	squared_complex = malloc(sizeof(t_complex));
-	if (squared_complex == NULL)
-		return (NULL);
-	squared_complex->im = 0;
-	squared_complex->re = 0;
-	// Calculation
-	squared_complex->re += c->re * c->re;
-	squared_complex->im += c->im * c->re * 2;
-	squared_complex->re -= c->im * c->im;
-	return (squared_complex);
-}
-
-int	complex_in_bounds(t_complex *complex)
-{
-	if (complex->re > 2 || complex->re < -2)
-		return (0);
-	if (complex->im > 2 || complex->im < -2)
-		return (0);
+	if (fd->fractol_type == FRACTOL_MANDELBROT)
+	{
+		if (complex->re > 1 || complex->re < -2)
+			return (0);
+		if (complex->im > 1.5 || complex->im < -1.5)
+			return (0);
+	}
+	else if (fd->fractol_type == FRACTOL_JULIA)
+	{
+		if (complex->re > 2 || complex->re < -2)
+			return (0);
+		if (complex->im > 2 || complex->im < -2)
+			return (0);
+	}
 	return (1);
 }
 
-uint32_t	keep_squaring(t_complex *start, uint32_t limit)
+uint32_t	keep_squaring(t_complex *start, t_fractol_data *fd)
 {
 	uint32_t	counter;
 	t_complex	*new_complex;
@@ -46,15 +40,19 @@ uint32_t	keep_squaring(t_complex *start, uint32_t limit)
 	new_complex = init_complex();
 	if (new_complex == NULL)
 		return (0);
+	if (fd->fractol_type == FRACTOL_JULIA)
+		add_to_complex(new_complex, start);
 	counter = 0;
-	while (counter < limit && complex_in_bounds(new_complex))
+	while (counter < fd->precision && complex_in_bounds(new_complex, fd))
 	{
 		tmp = new_complex;
 		new_complex = square_complex(new_complex);
 		if (new_complex == NULL)
 			return (free(tmp), 0);
-		new_complex->im += start->im;
-		new_complex->re += start->re;
+		if (fd->fractol_type == FRACTOL_MANDELBROT)
+			add_to_complex(new_complex, start);
+		else
+			add_to_complex(new_complex, fd->constant);
 		free(tmp);
 		counter++;
 	}
@@ -62,15 +60,14 @@ uint32_t	keep_squaring(t_complex *start, uint32_t limit)
 	return (counter);
 }
 
-uint32_t	get_mandlebrot_color(t_complex *start, uint32_t precision)
+uint32_t	get_fractol_color(t_complex *start, t_fractol_data *fd)
 {
 	uint32_t	escape_value;
 
-	escape_value = (double)keep_squaring(start, precision) / precision * 255;
-	return (rgba_to_hex(escape_value + 100, 255 - escape_value / 2, 255 - escape_value / 4, 255));
+	escape_value = (double)keep_squaring(start, fd) / fd->precision * 255;
+	return (rgba_to_hex(escape_value + 100, 255 - \
+		escape_value / 2, 255 - escape_value / 4, 255));
 }
-
-#include <stdio.h>
 
 t_complex	*window_to_complex(t_fractol_data *fd, uint32_t x, uint32_t y)
 {
@@ -83,10 +80,9 @@ t_complex	*window_to_complex(t_fractol_data *fd, uint32_t x, uint32_t y)
 	complex_number = malloc(sizeof(t_complex));
 	if (complex_number == NULL)
 		return (NULL);
-	// printf("Width: %f\n", half_width);
-	complex_number->re = fd->camera->pos->re + ((((double)x) - half_width) / 1000) * fd->camera->zoom;
-	complex_number->im = fd->camera->pos->im + ((((double)y) - half_height) / 1000) * fd->camera->zoom;
-	// complex_number->re = ((((double)x) - half_width + fd->camera->pos->x) / half_width) * fd->camera->zoom;
-	// complex_number->im = ((((double)y) - half_height + fd->camera->pos->y) / half_height) * fd->camera->zoom;
+	complex_number->re = fd->camera->pos->re + ((((double)x) - \
+		half_width) / 1000) * fd->camera->zoom;
+	complex_number->im = fd->camera->pos->im + ((((double)y) - \
+		half_height) / 1000) * fd->camera->zoom;
 	return (complex_number);
 }

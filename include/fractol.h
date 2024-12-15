@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:44:49 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/15 22:33:21 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/15 23:56:10 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 # include <string.h>
 
 // TYPES
+typedef enum e_fractol_type
+{
+	FRACTOL_MANDELBROT,
+	FRACTOL_JULIA
+}	t_fractol_type;
+
 typedef struct s_complex
 {
 	double	re;
@@ -33,29 +39,34 @@ typedef struct s_camera
 
 typedef struct s_fractol_data
 {
-	mlx_t		*mlx;
-	mlx_image_t	*img;
-	t_camera	*camera;
-	uint32_t	current_row;
-	uint32_t	precision;
-}				t_fractol_data;
+	mlx_t			*mlx;
+	mlx_image_t		*img;
+	t_camera		*camera;
+	uint32_t		current_row;
+	uint32_t		precision;
+	t_fractol_type	fractol_type;
+	t_complex		*constant;
+}					t_fractol_data;
 
 // Hooks
-void	key_hook(mlx_key_data_t keydata, void *fractol_data);
-void	resize_hook(int32_t width, int32_t height, void* fractol_data);
-void	scroll_hook(double xdelta, double ydelta, void* param);
+void			key_hook(mlx_key_data_t keydata, void *fractol_data);
+void			scroll_hook(double xdelta, double ydelta, void *param);
 
 // Utils
-uint32_t	rgba_to_hex(int r, int g, int b, int a);
+uint32_t		rgba_to_hex(int r, int g, int b, int a);
 
 // Unsorted stuff
 //void			put_mandelbrot(t_fractol_data *fd);
-t_fractol_data	*init_fractol_data();
-void			free_fractol_data(t_fractol_data	*fd);
+t_fractol_data	*init_fractol_data(int argc, char **argv);
+void			free_fractol_data(t_fractol_data *fd);
 t_complex		*window_to_complex(t_fractol_data *fd, uint32_t x, uint32_t y);
-uint32_t		get_mandlebrot_color(t_complex *start, uint32_t precision);
+uint32_t		get_fractol_color(t_complex *start, t_fractol_data *fd);
 void			put_mandelbrot_row(t_fractol_data *fd);
-void			put_mandelbrot(t_fractol_data *fd);
-t_complex		*init_complex();
+void			put_fractol(t_fractol_data *fd);
+t_complex		*init_complex(void);
+void			print_instrcutions(void);
+int				set_fractol_type(int argc, char **argv, t_fractol_data *fd);
+t_complex		*square_complex(t_complex *c);
+void			add_to_complex(t_complex *a, t_complex *b);
 
 #endif
