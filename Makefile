@@ -15,6 +15,7 @@ EXTRA_FLAGS := -flto -fomit-frame-pointer -fvisibility=hidden -march=native
 CFLAGS := -Wall -Wextra -Werror -Wunreachable-code -Ofast $(EXTRA_FLAGS)
 INCLUDES := -Iinclude -I$(MLX42_DIR)/include/MLX42 -I$(LIBFT_DIR)/include
 LIBS := $(MLX42_DEPENDENCY) $(LIBFT_DEPENDENCY) -ldl -lglfw -pthread -lm
+DEBUG_FLAGS := -g -fsanitize=address
 
 SRC_FILES := \
 	$(SRC_DIR)/main.c \
@@ -38,6 +39,9 @@ $(MLX42_DEPENDENCY):
 $(LIBFT_DEPENDENCY):
 	$(MAKE) -C $(LIBFT_DIR)
 
+debug: $(MLX42_DEPENDENCY) $(LIBFT_DEPENDENCY) $(OBJ_FILES)
+	$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBS) $(DEBUG_FLAGS) -o $(NAME)_debug
+
 $(NAME): $(MLX42_DEPENDENCY) $(LIBFT_DEPENDENCY) $(OBJ_FILES)
 	$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBS) -o $(NAME)
 
@@ -53,6 +57,7 @@ clean:
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
+	rm -f $(NAME)_debug
 
 re: fclean all
 
