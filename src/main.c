@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:45:58 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/15 23:16:26 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/16 00:03:56 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int32_t	main(int argc, char **argv)
 	fractol_data = init_fractol_data(argc, argv);
 	if (!fractol_data)
 		exit(EXIT_FAILURE);
-	fractol_data->mlx = mlx_init(500, 500, "Robert's Awesome Fractol", true);
+	fractol_data->mlx = mlx_init(2000, 1200, "Robert's Awesome Fractol", true);
 	if (!fractol_data->mlx)
 		exit(EXIT_FAILURE);
 	fractol_data->img = mlx_new_image(fractol_data->mlx,

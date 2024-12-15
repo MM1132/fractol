@@ -22,7 +22,6 @@ SRC_FILES := \
 	$(SRC_DIR)/fractol_data/fractol_type.c \
 	$(SRC_DIR)/fractol_data/fractol_type_utils.c \
 	$(SRC_DIR)/hooks/key_hook.c \
-	$(SRC_DIR)/hooks/resize_hook.c \
 	$(SRC_DIR)/hooks/scroll_hook.c \
 	$(SRC_DIR)/utils/complex.c \
 	$(SRC_DIR)/utils/complex_utils.c \
@@ -58,6 +57,6 @@ fclean: clean
 re: fclean all
 
 norm:
-	norminette ./include ./src
+	norminette ./include ./src ./lib/libft
 
 .PHONY: all clean fclean re norm
