@@ -40,7 +40,7 @@ $(LIBFT_DEPENDENCY):
 	$(MAKE) -C $(LIBFT_DIR)
 
 debug: $(MLX42_DEPENDENCY) $(LIBFT_DEPENDENCY) $(OBJ_FILES)
-	$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBS) $(DEBUG_FLAGS) -o $(NAME)_debug
+	$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBS) $(DEBUG_FLAGS) -o debug
 
 $(NAME): $(MLX42_DEPENDENCY) $(LIBFT_DEPENDENCY) $(OBJ_FILES)
 	$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBS) -o $(NAME)
@@ -57,7 +57,7 @@ clean:
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
-	rm -f $(NAME)_debug
+	rm -f debug
 
 re: fclean all
 
