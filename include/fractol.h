@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:44:49 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/15 23:56:10 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:33:06 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "MLX42.h"
 # include "libft.h"
 # include <stdlib.h>
-# include <string.h>
 
 // TYPES
 typedef enum e_fractol_type
