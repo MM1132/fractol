@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:45:58 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/16 01:23:57 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:30:18 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int32_t	main(int argc, char **argv)
 	mlx_key_hook(fractol_data->mlx, &key_hook, fractol_data);
 	mlx_scroll_hook(fractol_data->mlx, &scroll_hook, fractol_data);
 	mlx_loop(fractol_data->mlx);
-	mlx_delete_image(fractol_data->mlx, fractol_data->img);
 	mlx_terminate(fractol_data->mlx);
 	free_fractol_data(fractol_data);
 	return (EXIT_SUCCESS);
