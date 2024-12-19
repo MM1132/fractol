@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:53:55 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/16 00:18:17 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/18 19:00:46 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,25 @@ void	key_hook(mlx_key_data_t keydata, void *fractol_data)
 	else if (keydata.action == MLX_PRESS)
 	{
 		if (keydata.key == MLX_KEY_W)
-			fd->camera->pos->im -= fd->camera->zoom / 25;
+			fd->camera->target_pos.im -= fd->camera->zoom / 10;
 		else if (keydata.key == MLX_KEY_A)
-			fd->camera->pos->re -= fd->camera->zoom / 25;
+			fd->camera->target_pos.re -= fd->camera->zoom / 10;
 		else if (keydata.key == MLX_KEY_S)
-			fd->camera->pos->im += fd->camera->zoom / 25;
+			fd->camera->target_pos.im += fd->camera->zoom / 10;
 		else if (keydata.key == MLX_KEY_D)
-			fd->camera->pos->re += fd->camera->zoom / 25;
+			fd->camera->target_pos.re += fd->camera->zoom / 10;
 		else if (keydata.key == MLX_KEY_Q)
 		{
 			if (fd->precision > 10)
 				fd->precision -= 10;
+			put_fractol(fd);
 		}
 		else if (keydata.key == MLX_KEY_E)
+		{
 			fd->precision += 10;
-		put_fractol(fd);
+			put_fractol(fd);
+		}
+		else if (keydata.key == MLX_KEY_R)
+			put_fractol(fd);
 	}
 }

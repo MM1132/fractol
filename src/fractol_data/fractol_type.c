@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:42:45 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/16 00:41:43 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/18 19:52:53 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ static t_camera	*init_camera(void)
 		return (NULL);
 	}
 	camera->zoom = 10;
+	camera->speed = (t_complex) {0.0, 0.0};
+	camera->moving = false;
+	camera->last_pos = *camera->pos;
+	camera->target_pos = *camera->pos;
+	camera->last_zoom = camera->zoom;
+	camera->target_zoom = camera->zoom;
 	return (camera);
 }
 

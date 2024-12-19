@@ -1,6 +1,7 @@
 fractol
-fractol_debug
+debug
 /obj
 /lib/MLX42
 **/*.o
 **/*.a
+.vscode

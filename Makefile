@@ -24,6 +24,7 @@ SRC_FILES := \
 	$(SRC_DIR)/fractol_data/fractol_type_utils.c \
 	$(SRC_DIR)/hooks/key_hook.c \
 	$(SRC_DIR)/hooks/scroll_hook.c \
+	$(SRC_DIR)/hooks/loop_hook.c \
 	$(SRC_DIR)/utils/complex.c \
 	$(SRC_DIR)/utils/complex_utils.c \
 	$(SRC_DIR)/instructions.c \
