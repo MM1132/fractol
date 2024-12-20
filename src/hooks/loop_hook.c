@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop_hook.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 16:13:47 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/19 17:58:49 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/20 01:50:10 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	loop_hook(void	*fracol_data)
 	t_fractol_data	*fd;
 	t_complex		pos_diff;
 	double			zoom_diff;
+	double			speed;
+	double			diagonal_speed;
 
 	fd = (t_fractol_data *)fracol_data;
 
@@ -52,6 +54,41 @@ void	loop_hook(void	*fracol_data)
 	pos_diff.im = fd->camera->target_pos.im - fd->camera->pos->im;
 
 	zoom_diff = fd->camera->target_zoom - fd->camera->zoom;
+
+	speed = fd->camera->zoom / 100;
+	diagonal_speed = speed * 1.41;
+	if (fd->keys.up || fd->keys.down || fd->keys.left || fd->keys.right)
+	{
+		printf("speed: %f\n", speed);
+	}
+	if (fd->keys.up && fd->keys.right)
+	{
+		fd->camera->target_pos.re += diagonal_speed;
+		fd->camera->target_pos.im -= diagonal_speed;
+	}
+	else if (fd->keys.right && fd->keys.down)
+	{
+		fd->camera->target_pos.re += diagonal_speed;
+		fd->camera->target_pos.im += diagonal_speed;
+	}
+	else if (fd->keys.down && fd->keys.left)
+	{
+		fd->camera->target_pos.re -= diagonal_speed;
+		fd->camera->target_pos.im += diagonal_speed;
+	}
+	else if (fd->keys.left && fd->keys.up)
+	{
+		fd->camera->target_pos.re -= diagonal_speed;
+		fd->camera->target_pos.im -= diagonal_speed;
+	}
+	else if (fd->keys.up == true)
+		fd->camera->target_pos.im -= speed;
+	else if (fd->keys.left == true)
+		fd->camera->target_pos.re -= speed;
+	else if (fd->keys.down == true)
+		fd->camera->target_pos.im += speed;
+	else if (fd->keys.right == true)
+		fd->camera->target_pos.re += speed;
 	
 	if (fabs(pos_diff.re) > 0.01 * fd->camera->zoom || fabs(pos_diff.im) > 0.01 * fd->camera->zoom || fabs(zoom_diff) > 0.01 * fd->camera->zoom)
 	{
@@ -62,8 +99,8 @@ void	loop_hook(void	*fracol_data)
 			fd->camera->last_zoom = fd->camera->zoom;
 		}
 
-		fd->camera->pos->re += pos_diff.re * 0.1;
-		fd->camera->pos->im += pos_diff.im * 0.1;
+		fd->camera->pos->re += pos_diff.re * 0.02;
+		fd->camera->pos->im += pos_diff.im * 0.02;
 		fd->camera->zoom += zoom_diff * 0.1;
 		
 		shift_image(fd);

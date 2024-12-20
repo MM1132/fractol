@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol_type.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:42:45 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/18 19:52:53 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/20 01:47:52 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ t_fractol_data	*init_fractol_data(int argc, char **argv)
 	fd->img = NULL;
 	fd->mlx = NULL;
 	fd->camera = NULL;
-	fd->precision = 10;
+	fd->precision = 100;
+	fd->keys = (t_keys) { false, false, false, false };
 	fd->camera = init_camera();
 	if (fd->camera == NULL)
 		return (free_fractol_data(fd), NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:44:49 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/18 19:52:29 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/20 01:25:16 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ typedef struct s_camera
 	double		target_zoom;
 }				t_camera;
 
+typedef struct s_keys
+{
+	bool	up;
+	bool	down;
+	bool	left;
+	bool	right;
+}			t_keys;
+
 typedef struct s_fractol_data
 {
 	mlx_t			*mlx;
@@ -54,6 +62,7 @@ typedef struct s_fractol_data
 	uint32_t		precision;
 	t_fractol_type	fractol_type;
 	t_complex		*constant;
+	t_keys			keys;
 }					t_fractol_data;
 
 // Hooks

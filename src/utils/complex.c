@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   complex.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:08:08 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/19 17:34:17 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/20 01:22:17 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 int	complex_in_bounds(t_complex *complex, t_fractol_data *fd)
 {
+	double	distance_from_center;
+
 	if (fd->fractol_type == FRACTOL_MANDELBROT)
 	{
-		if (complex->re > 1 || complex->re < -2)
-			return (0);
-		if (complex->im > 1.5 || complex->im < -1.5)
+		distance_from_center = sqrt(pow(complex->im, 2) + pow(complex->re, 2));
+		if (distance_from_center > 2)
 			return (0);
 	}
 	else if (fd->fractol_type == FRACTOL_JULIA)
@@ -33,15 +34,15 @@ int	complex_in_bounds(t_complex *complex, t_fractol_data *fd)
 
 uint32_t	keep_squaring(t_complex *start, t_fractol_data *fd)
 {
-	uint32_t	counter;
+	double		counter;
 	t_complex	new_complex;
 
 	new_complex.im = 0;
 	new_complex.re = 0;
 	if (fd->fractol_type == FRACTOL_JULIA)
 		add_to_complex(&new_complex, start);
-	counter = 0;
-	while (counter < fd->precision && complex_in_bounds(&new_complex, fd))
+	counter = 0.0;
+	while (counter < (double)fd->precision && complex_in_bounds(&new_complex, fd))
 	{
 		new_complex = square_complex(&new_complex);
 		if (fd->fractol_type == FRACTOL_MANDELBROT)
@@ -50,6 +51,7 @@ uint32_t	keep_squaring(t_complex *start, t_fractol_data *fd)
 		}
 		else
 			add_to_complex(&new_complex, fd->constant);
+		//counter += 1 / sqrt(pow(new_complex.re, 2) + pow(new_complex.im, 2));
 		counter++;
 	}
 	
@@ -59,9 +61,15 @@ uint32_t	keep_squaring(t_complex *start, t_fractol_data *fd)
 uint32_t	get_fractol_color(t_complex *start, t_fractol_data *fd)
 {
 	uint32_t	escape_value;
+	static uint32_t	color_changer;
+
+	if (color_changer < 255)
+		color_changer++;
+	else
+		color_changer = 0;
 
 	escape_value = (double)keep_squaring(start, fd) / fd->precision * 255;
-	return (rgba_to_hex(255, 255, 255, escape_value));
+	return (rgba_to_hex(escape_value, 255 - escape_value, escape_value / (color_changer % 4 + 1) * 5, 255 - escape_value));
 }
 
 t_complex	window_to_complex(t_fractol_data *fd, uint32_t x, uint32_t y)

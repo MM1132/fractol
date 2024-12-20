@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:53:55 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/18 19:00:46 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/20 01:27:41 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,42 @@ void	key_hook(mlx_key_data_t keydata, void *fractol_data)
 	else if (keydata.action == MLX_PRESS)
 	{
 		if (keydata.key == MLX_KEY_W)
-			fd->camera->target_pos.im -= fd->camera->zoom / 10;
+			fd->keys.up = true;
 		else if (keydata.key == MLX_KEY_A)
-			fd->camera->target_pos.re -= fd->camera->zoom / 10;
+			fd->keys.left = true;
 		else if (keydata.key == MLX_KEY_S)
-			fd->camera->target_pos.im += fd->camera->zoom / 10;
+			fd->keys.down = true;
 		else if (keydata.key == MLX_KEY_D)
-			fd->camera->target_pos.re += fd->camera->zoom / 10;
+			fd->keys.right = true;
 		else if (keydata.key == MLX_KEY_Q)
 		{
 			if (fd->precision > 10)
 				fd->precision -= 10;
 			put_fractol(fd);
+			ft_printf("Precision: %d\n", fd->precision);
 		}
 		else if (keydata.key == MLX_KEY_E)
 		{
 			fd->precision += 10;
 			put_fractol(fd);
+			ft_printf("Precision: %d\n", fd->precision);
 		}
+		else if (keydata.key == MLX_KEY_KP_ADD)
+			fd->camera->target_zoom *= 0.4;
+		else if (keydata.key == MLX_KEY_KP_SUBTRACT)
+			fd->camera->target_zoom /= 0.4;
 		else if (keydata.key == MLX_KEY_R)
 			put_fractol(fd);
+	}
+	else if (keydata.action == MLX_RELEASE)
+	{
+		if (keydata.key == MLX_KEY_W)
+			fd->keys.up = false;
+		else if (keydata.key == MLX_KEY_A)
+			fd->keys.left = false;
+		else if (keydata.key == MLX_KEY_S)
+			fd->keys.down = false;
+		else if (keydata.key == MLX_KEY_D)
+			fd->keys.right = false;
 	}
 }
