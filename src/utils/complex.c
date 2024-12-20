@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:08:08 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/20 01:22:17 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/20 02:08:31 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,45 @@ int	complex_in_bounds(t_complex *complex, t_fractol_data *fd)
 	return (1);
 }
 
+int	complex_in_history(t_complex history[100], t_complex complex, int history_size)
+{
+	int	index;
+
+	index = 0;
+	while (index < 100 && index < history_size)
+	{
+		if (history[index].im == complex.im && history[index].re == complex.re)
+		{
+			return (1);
+		}
+		index++;
+	}
+	if (index < 100)
+		history[index] = complex;
+	return (0);
+}
+
 uint32_t	keep_squaring(t_complex *start, t_fractol_data *fd)
 {
-	double		counter;
+	int			counter;
 	t_complex	new_complex;
+	t_complex	history[100];
+	int			history_size;
 
+	history_size = 0;
 	new_complex.im = 0;
 	new_complex.re = 0;
 	if (fd->fractol_type == FRACTOL_JULIA)
 		add_to_complex(&new_complex, start);
-	counter = 0.0;
+	counter = 0;
 	while (counter < (double)fd->precision && complex_in_bounds(&new_complex, fd))
 	{
+		if (complex_in_history(history, new_complex, history_size))
+		{
+			history_size++;
+			return (counter);
+		}
+
 		new_complex = square_complex(&new_complex);
 		if (fd->fractol_type == FRACTOL_MANDELBROT)
 		{
@@ -54,7 +81,6 @@ uint32_t	keep_squaring(t_complex *start, t_fractol_data *fd)
 		//counter += 1 / sqrt(pow(new_complex.re, 2) + pow(new_complex.im, 2));
 		counter++;
 	}
-	
 	return (counter);
 }
 
