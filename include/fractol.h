@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:44:49 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/21 00:52:20 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/21 18:13:22 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,12 @@
 # include <stdlib.h>
 # include <math.h>
 
+// Debug
 #include <stdio.h>
+
+#ifndef ZOOM_FACTOR
+# define ZOOM_FACTOR 0.4
+#endif
 
 // TYPES
 typedef enum e_fractol_type
@@ -57,11 +62,11 @@ typedef struct s_fractol_data
 {
 	mlx_t			*mlx;
 	mlx_image_t		*img;
-	t_camera		*camera;
+	t_camera		camera;
 	uint32_t		current_row;
 	uint32_t		precision;
 	t_fractol_type	fractol_type;
-	t_complex		*constant;
+	t_complex		constant;
 	t_keys			keys;
 	int32_t			last_image_width;
 	int32_t			last_image_height;
@@ -83,10 +88,13 @@ t_complex		window_to_complex(t_fractol_data *fd, uint32_t x, uint32_t y);
 uint32_t		get_fractol_color(t_complex *start, t_fractol_data *fd);
 void			put_mandelbrot_row(t_fractol_data *fd);
 void			put_fractol(t_fractol_data *fd);
-t_complex		*init_complex(void);
 void			print_instrcutions(void);
 int				set_fractol_type(int argc, char **argv, t_fractol_data *fd);
 t_complex		square_complex(t_complex *c);
 void			add_to_complex(t_complex *a, t_complex *b);
+uint32_t		get_smallest_dimension(t_fractol_data *fd);
+void			zoom_in(t_fractol_data *fd);
+void			zoom_out(t_fractol_data *fd);
+void			handle_arrow_movement(t_fractol_data *fd);
 
 #endif

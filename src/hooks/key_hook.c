@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:53:55 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/20 01:27:41 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/21 16:37:33 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	key_hook(mlx_key_data_t keydata, void *fractol_data)
 			ft_printf("Precision: %d\n", fd->precision);
 		}
 		else if (keydata.key == MLX_KEY_KP_ADD)
-			fd->camera->target_zoom *= 0.4;
+			zoom_in(fd);
 		else if (keydata.key == MLX_KEY_KP_SUBTRACT)
-			fd->camera->target_zoom /= 0.4;
+			zoom_out(fd);
 		else if (keydata.key == MLX_KEY_R)
 			put_fractol(fd);
 	}

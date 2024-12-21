@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:08:08 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/21 00:40:35 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/21 17:11:08 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ uint32_t	keep_squaring(t_complex *start, t_fractol_data *fd)
 			add_to_complex(&new_complex, start);
 		}
 		else
-			add_to_complex(&new_complex, fd->constant);
-		// counter += 1 / sqrt(pow(new_complex.re, 2) + pow(new_complex.im, 2));
-		counter++;
+			add_to_complex(&new_complex, &fd->constant);
+		// counter += 1 / sqrt(pow(new_complex.re, 2) + pow(new_complex.im, 2)) + 2;
+		counter += 1.2;
 	}
 	return (counter);
 }
@@ -85,15 +85,9 @@ uint32_t	keep_squaring(t_complex *start, t_fractol_data *fd)
 uint32_t	get_fractol_color(t_complex *start, t_fractol_data *fd)
 {
 	uint32_t	escape_value;
-	static uint32_t	color_changer;
-
-	if (color_changer < 255)
-		color_changer++;
-	else
-		color_changer = 0;
 
 	escape_value = (double)keep_squaring(start, fd) / fd->precision * 255;
-	return (rgba_to_hex(escape_value, 255 - escape_value, escape_value / (color_changer % 4 + 1) * 5, 255 - escape_value));
+	return (rgba_to_hex(escape_value, 255 - escape_value, escape_value / 5, 255 - escape_value));
 }
 
 t_complex	window_to_complex(t_fractol_data *fd, uint32_t x, uint32_t y)
@@ -101,12 +95,15 @@ t_complex	window_to_complex(t_fractol_data *fd, uint32_t x, uint32_t y)
 	t_complex	complex_number;
 	double		half_width;
 	double		half_height;
+	uint32_t	smallest_dimension;
+
+	smallest_dimension = get_smallest_dimension(fd);
 
 	half_width = (double)fd->img->width / 2.0;
 	half_height = (double)fd->img->height / 2.0;
-	complex_number.re = fd->camera->pos.re + ((((double)x) - \
-		half_width) / 1000) * fd->camera->zoom;
-	complex_number.im = fd->camera->pos.im + ((((double)y) - \
-		half_height) / 1000) * fd->camera->zoom;
+	complex_number.re = fd->camera.pos.re + ((((double)x) - \
+		half_width) / smallest_dimension) * fd->camera.zoom;
+	complex_number.im = fd->camera.pos.im + ((((double)y) - \
+		half_height) / smallest_dimension) * fd->camera.zoom;
 	return (complex_number);
 }

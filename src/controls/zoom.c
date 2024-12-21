@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   scroll_hook.c                                      :+:      :+:    :+:   */
+/*   zoom.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/15 22:13:21 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/21 17:07:46 by rreimann         ###   ########.fr       */
+/*   Created: 2024/12/21 16:35:02 by rreimann          #+#    #+#             */
+/*   Updated: 2024/12/21 16:35:43 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	scroll_hook(double xdelta, double ydelta, void *param)
+void	zoom_in(t_fractol_data *fd)
 {
-	t_fractol_data	*fd;
+	fd->camera.target_zoom *= ZOOM_FACTOR;
+}
 
-	xdelta += 1;
-	fd = (t_fractol_data *)param;
-	if (ydelta > 0.0)
-		zoom_in(fd);
-	else
-		zoom_out(fd);
-	printf("Zoom: %f\n", fd->camera.target_zoom);
-	put_fractol(fd);
+void	zoom_out(t_fractol_data *fd)
+{
+	fd->camera.target_zoom /= ZOOM_FACTOR;
 }

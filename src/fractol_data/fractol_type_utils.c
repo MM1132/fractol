@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 23:07:07 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/15 23:41:30 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/21 17:10:38 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@ void	set_julia_constant(t_fractol_data *fd, long numeric_input)
 {
 	if (numeric_input == 1)
 	{
-		fd->constant->re = -0.7714;
-		fd->constant->im = 0.2744;
+		fd->constant.re = -0.7714;
+		fd->constant.im = 0.2744;
 	}
 	else if (numeric_input == 2)
 	{
-		fd->constant->re = -0.5232;
-		fd->constant->im = -0.6924;
+		fd->constant.re = -0.5232;
+		fd->constant.im = -0.6924;
 	}
 	else if (numeric_input == 3)
 	{
-		fd->constant->re = 0.2364;
-		fd->constant->im = 0.5368;
+		fd->constant.re = 0.2364;
+		fd->constant.im = 0.5368;
 	}
 }
 
