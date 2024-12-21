@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 22:13:21 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/18 19:53:28 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/21 00:39:36 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ void	scroll_hook(double xdelta, double ydelta, void *param)
 		fd->camera->target_zoom *= 0.4;
 	else
 		fd->camera->target_zoom /= 0.4;
+	printf("Zoom: %f\n", fd->camera->target_zoom);
 	put_fractol(fd);
 }

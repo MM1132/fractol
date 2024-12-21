@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol_type.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:42:45 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/20 01:47:52 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/21 00:36:11 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_complex	*init_complex(void)
 
 static void	free_camera(t_camera *camera)
 {
-	free(camera->pos);
 	free(camera);
 }
 
@@ -44,17 +43,12 @@ static t_camera	*init_camera(void)
 	camera = malloc(sizeof(t_camera));
 	if (camera == NULL)
 		return (NULL);
-	camera->pos = init_complex();
-	if (camera->pos == NULL)
-	{
-		free_camera(camera);
-		return (NULL);
-	}
+	camera->pos = (t_complex) {0.0, 0.0};
 	camera->zoom = 10;
 	camera->speed = (t_complex) {0.0, 0.0};
 	camera->moving = false;
-	camera->last_pos = *camera->pos;
-	camera->target_pos = *camera->pos;
+	camera->last_pos = camera->pos;
+	camera->target_pos = camera->pos;
 	camera->last_zoom = camera->zoom;
 	camera->target_zoom = camera->zoom;
 	return (camera);

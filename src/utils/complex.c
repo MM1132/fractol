@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   complex.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:08:08 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/20 02:08:31 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/21 00:40:35 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ uint32_t	keep_squaring(t_complex *start, t_fractol_data *fd)
 {
 	int			counter;
 	t_complex	new_complex;
-	t_complex	history[100];
-	int			history_size;
+	// t_complex	history[1000];
+	// int			history_size;
 
-	history_size = 0;
+	// history_size = 0;
 	new_complex.im = 0;
 	new_complex.re = 0;
 	if (fd->fractol_type == FRACTOL_JULIA)
@@ -65,11 +65,9 @@ uint32_t	keep_squaring(t_complex *start, t_fractol_data *fd)
 	counter = 0;
 	while (counter < (double)fd->precision && complex_in_bounds(&new_complex, fd))
 	{
-		if (complex_in_history(history, new_complex, history_size))
-		{
-			history_size++;
-			return (counter);
-		}
+		// if (complex_in_history(history, new_complex, history_size))
+		// 	return (counter);
+		// history_size++;
 
 		new_complex = square_complex(&new_complex);
 		if (fd->fractol_type == FRACTOL_MANDELBROT)
@@ -78,7 +76,7 @@ uint32_t	keep_squaring(t_complex *start, t_fractol_data *fd)
 		}
 		else
 			add_to_complex(&new_complex, fd->constant);
-		//counter += 1 / sqrt(pow(new_complex.re, 2) + pow(new_complex.im, 2));
+		// counter += 1 / sqrt(pow(new_complex.re, 2) + pow(new_complex.im, 2));
 		counter++;
 	}
 	return (counter);
@@ -103,19 +101,12 @@ t_complex	window_to_complex(t_fractol_data *fd, uint32_t x, uint32_t y)
 	t_complex	complex_number;
 	double		half_width;
 	double		half_height;
-	// static int	counter = 0;
-
-	// if (counter < 5)
-	// {
-	// 	printf("Camera pos: %f\n", fd->camera->pos->re);
-	// 	counter++;
-	// }
 
 	half_width = (double)fd->img->width / 2.0;
 	half_height = (double)fd->img->height / 2.0;
-	complex_number.re = fd->camera->pos->re + ((((double)x) - \
+	complex_number.re = fd->camera->pos.re + ((((double)x) - \
 		half_width) / 1000) * fd->camera->zoom;
-	complex_number.im = fd->camera->pos->im + ((((double)y) - \
+	complex_number.im = fd->camera->pos.im + ((((double)y) - \
 		half_height) / 1000) * fd->camera->zoom;
 	return (complex_number);
 }

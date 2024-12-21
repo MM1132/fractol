@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop_hook.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 16:13:47 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/20 01:50:10 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/21 01:03:27 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	reset_image(t_fractol_data *fd)
 {
 	fd->img->instances[0].x = 0;
 	fd->img->instances[0].y = 0;
+	
+	mlx_resize_image(fd->img, fd->mlx->width, fd->mlx->height);
 }
 
 void	shift_image(t_fractol_data *fd)
@@ -24,8 +26,8 @@ void	shift_image(t_fractol_data *fd)
 	double	pixel_diff_x;
 	double	pixel_diff_y;
 
-	diff.re = fd->camera->last_pos.re - fd->camera->pos->re;
-	diff.im = fd->camera->last_pos.im - fd->camera->pos->im;
+	diff.re = fd->camera->last_pos.re - fd->camera->pos.re;
+	diff.im = fd->camera->last_pos.im - fd->camera->pos.im;
 	pixel_diff_x = (diff.re * 1000) / fd->camera->zoom;
 	pixel_diff_y = (diff.im * 1000) / fd->camera->zoom;
 
@@ -33,7 +35,21 @@ void	shift_image(t_fractol_data *fd)
 	fd->img->instances[0].y = (int)pixel_diff_y;
 
 	// ZOOM
-	// double zoom_diff = fd->camera->last_zoom - fd->camera->zoom;
+	// This is the difference between the last zoom and the current zoom
+	// It will be used for knowing how much to scale the image
+	double zoom_diff = fd->camera->last_zoom - fd->camera->zoom;
+
+	// How much do add to the width and height
+	double width_diff = zoom_diff / fd->camera->zoom;
+	double height_diff = zoom_diff / fd->camera->zoom;
+
+	uint32_t new_width = (uint32_t)(fd->last_image_width + width_diff);
+	uint32_t new_height = (uint32_t)(fd->last_image_height + height_diff);
+
+	// Scale the image
+	mlx_resize_image(fd->img, new_width, new_height);
+
+	// printf("Zoom diff: %f\n", zoom_diff);
 	// uint32_t new_width = (uint32_t)(fd->img->width + 1);
 	// uint32_t new_height = (uint32_t)(fd->img->height + 1);
 
@@ -50,8 +66,8 @@ void	loop_hook(void	*fracol_data)
 
 	fd = (t_fractol_data *)fracol_data;
 
-	pos_diff.re = fd->camera->target_pos.re - fd->camera->pos->re;
-	pos_diff.im = fd->camera->target_pos.im - fd->camera->pos->im;
+	pos_diff.re = fd->camera->target_pos.re - fd->camera->pos.re;
+	pos_diff.im = fd->camera->target_pos.im - fd->camera->pos.im;
 
 	zoom_diff = fd->camera->target_zoom - fd->camera->zoom;
 
@@ -95,12 +111,14 @@ void	loop_hook(void	*fracol_data)
 		if (fd->camera->moving == false)
 		{
 			fd->camera->moving = true;
-			fd->camera->last_pos = *fd->camera->pos;
+			fd->camera->last_pos = fd->camera->pos;
 			fd->camera->last_zoom = fd->camera->zoom;
+			fd->last_image_width = fd->img->width;
+			fd->last_image_height = fd->img->height;
 		}
 
-		fd->camera->pos->re += pos_diff.re * 0.02;
-		fd->camera->pos->im += pos_diff.im * 0.02;
+		fd->camera->pos.re += pos_diff.re * 0.02;
+		fd->camera->pos.im += pos_diff.im * 0.02;
 		fd->camera->zoom += zoom_diff * 0.1;
 		
 		shift_image(fd);
@@ -110,7 +128,7 @@ void	loop_hook(void	*fracol_data)
 		if (fd->camera->moving == true)
 		{
 			fd->camera->moving = false;
-			fd->camera->target_pos = *fd->camera->pos;
+			fd->camera->target_pos = fd->camera->pos;
 			fd->camera->target_zoom = fd->camera->zoom;
 
 			reset_image(fd);
@@ -126,8 +144,8 @@ void	loop_hook(void	*fracol_data)
 	if (fabs(fd->camera->speed.re) > 0.01 || fabs(fd->camera->speed.im) > 0.01)
 	{
 
-		fd->camera->pos->re += fd->camera->speed.re;
-		fd->camera->pos->im += fd->camera->speed.im;
+		fd->camera->pos.re += fd->camera->speed.re;
+		fd->camera->pos.im += fd->camera->speed.im;
 
 		fd->camera->speed.im *= 0.93;
 		fd->camera->speed.re *= 0.93;
