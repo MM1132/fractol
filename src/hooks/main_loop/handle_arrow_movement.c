@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_arrow_movement.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 17:22:07 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/21 18:07:37 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:19:36 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,14 @@ void	handle_arrow_movement(t_fractol_data *fd)
 {
 	double	speed;
 
-	speed = fd->camera.zoom / 100;
+	speed = 0.01 / fd->camera.zoom;
 	if (!move_diagonally(fd, speed * 1.41))
 	{
 		if (fd->keys.up == true)
+		{
+			printf("Moving up\n");
 			fd->camera.target_pos.im -= speed;
+		}
 		else if (fd->keys.left == true)
 			fd->camera.target_pos.re -= speed;
 		else if (fd->keys.down == true)

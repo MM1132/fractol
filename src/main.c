@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:45:58 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/21 17:19:23 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/21 23:43:18 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int32_t	main(int argc, char **argv)
 			fractol_data->mlx->height);
 	mlx_image_to_window(fractol_data->mlx, fractol_data->img, 0, 0);
 	create_cross(fractol_data);
-	put_fractol(fractol_data);
 	mlx_key_hook(fractol_data->mlx, &key_hook, fractol_data);
 	mlx_scroll_hook(fractol_data->mlx, &scroll_hook, fractol_data);
 	mlx_loop_hook(fractol_data->mlx, &loop_hook, fractol_data);

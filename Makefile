@@ -26,6 +26,8 @@ SRC_FILES := \
 	$(SRC_DIR)/hooks/scroll_hook.c \
 	$(SRC_DIR)/hooks/main_loop/loop_hook.c \
 	$(SRC_DIR)/hooks/main_loop/handle_arrow_movement.c \
+	$(SRC_DIR)/hooks/main_loop/handle_zoom.c \
+	$(SRC_DIR)/hooks/main_loop/image_operations.c \
 	$(SRC_DIR)/utils/complex.c \
 	$(SRC_DIR)/utils/window.c \
 	$(SRC_DIR)/utils/complex_utils.c \

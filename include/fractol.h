@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 18:44:49 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/21 18:13:22 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:18:38 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #include <stdio.h>
 
 #ifndef ZOOM_FACTOR
-# define ZOOM_FACTOR 0.4
+# define ZOOM_FACTOR 1.05
 #endif
 
 // TYPES
@@ -40,11 +40,10 @@ typedef struct s_complex
 
 typedef struct s_camera
 {
+	bool		moving;
 	t_complex	pos;
 	t_complex	last_pos;
 	t_complex	target_pos;
-	t_complex	speed;
-	bool		moving;
 	double		zoom;
 	double		last_zoom;
 	double		target_zoom;
@@ -56,6 +55,8 @@ typedef struct s_keys
 	bool	down;
 	bool	left;
 	bool	right;
+	bool	plus;
+	bool	minus;
 }			t_keys;
 
 typedef struct s_fractol_data
@@ -93,8 +94,16 @@ int				set_fractol_type(int argc, char **argv, t_fractol_data *fd);
 t_complex		square_complex(t_complex *c);
 void			add_to_complex(t_complex *a, t_complex *b);
 uint32_t		get_smallest_dimension(t_fractol_data *fd);
+
+// Movement
+void			handle_arrow_movement(t_fractol_data *fd);
+void			handle_zoom(t_fractol_data *fd);
+
 void			zoom_in(t_fractol_data *fd);
 void			zoom_out(t_fractol_data *fd);
-void			handle_arrow_movement(t_fractol_data *fd);
+
+// Image
+void			translate_image(t_fractol_data *fd);
+void			reset_image(t_fractol_data *fd);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hook.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:53:55 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/21 16:37:33 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:13:12 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	key_hook(mlx_key_data_t keydata, void *fractol_data)
 			ft_printf("Precision: %d\n", fd->precision);
 		}
 		else if (keydata.key == MLX_KEY_KP_ADD)
-			zoom_in(fd);
+			fd->keys.plus = true;
 		else if (keydata.key == MLX_KEY_KP_SUBTRACT)
-			zoom_out(fd);
+			fd->keys.minus = true;
 		else if (keydata.key == MLX_KEY_R)
 			put_fractol(fd);
 	}
@@ -59,5 +59,9 @@ void	key_hook(mlx_key_data_t keydata, void *fractol_data)
 			fd->keys.down = false;
 		else if (keydata.key == MLX_KEY_D)
 			fd->keys.right = false;
+		else if (keydata.key == MLX_KEY_KP_ADD)
+			fd->keys.plus = false;
+		else if (keydata.key == MLX_KEY_KP_SUBTRACT)
+			fd->keys.minus = false;
 	}
 }

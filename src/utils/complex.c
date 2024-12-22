@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   complex.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 18:08:08 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/21 17:11:08 by rreimann         ###   ########.fr       */
+/*   Updated: 2024/12/22 00:39:11 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ t_complex	window_to_complex(t_fractol_data *fd, uint32_t x, uint32_t y)
 	half_width = (double)fd->img->width / 2.0;
 	half_height = (double)fd->img->height / 2.0;
 	complex_number.re = fd->camera.pos.re + ((((double)x) - \
-		half_width) / smallest_dimension) * fd->camera.zoom;
+		half_width) / smallest_dimension) / fd->camera.zoom;
 	complex_number.im = fd->camera.pos.im + ((((double)y) - \
-		half_height) / smallest_dimension) * fd->camera.zoom;
+		half_height) / smallest_dimension) / fd->camera.zoom;
 	return (complex_number);
 }

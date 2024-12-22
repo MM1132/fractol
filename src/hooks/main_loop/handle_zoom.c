@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   zoom.c                                             :+:      :+:    :+:   */
+/*   handle_zoom.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/21 16:35:02 by rreimann          #+#    #+#             */
-/*   Updated: 2024/12/22 00:18:17 by rreimann         ###   ########.fr       */
+/*   Created: 2024/12/22 00:14:00 by rreimann          #+#    #+#             */
+/*   Updated: 2024/12/22 00:14:19 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	zoom_in(t_fractol_data *fd)
+void	handle_zoom(t_fractol_data *fd)
 {
-	fd->camera.target_zoom *= ZOOM_FACTOR;
-}
-
-void	zoom_out(t_fractol_data *fd)
-{
-	fd->camera.target_zoom /= ZOOM_FACTOR;
+	if (fd->keys.plus)
+		zoom_in(fd);
+	else if (fd->keys.minus)
+		zoom_out(fd);
 }
